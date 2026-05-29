@@ -10,19 +10,23 @@ public enum UserRole
 }
 public class User
 {
+    private readonly string _userid;
     private string _firstName;
     private string _lastName;
     private string _email;
     private string _password;
+    private ShoppingCart _cart;
     private UserRole _role;
 
     public User(string firstName, string lastName, string email, string password, UserRole role = UserRole.Customer)
     {
+        _userid = Guid.NewGuid().ToString();
         _firstName = firstName;
         _lastName = lastName;
         _email = email;
         _password = password;
         _role = role;
+        _cart = new ShoppingCart(this);
     }
 
     public bool Authenticate(string password)
@@ -40,6 +44,11 @@ public class User
         return $"{_firstName} {_lastName}";
     }
 
+    public string UserId
+    {
+        get {return _userid;}
+    }
+
     public string FirstName
     {
         get {return _firstName;}
@@ -51,6 +60,10 @@ public class User
     public string Email
     {
         get {return _email;}
+    }
+    public ShoppingCart GetCart()
+    {
+        return _cart;
     }
     public UserRole Role
     {

@@ -1,4 +1,7 @@
-﻿namespace FavoriteBooks;
+﻿using System;
+using System.Collections.Generic;
+
+namespace FavoriteBooks;
 
 class Program
 {
@@ -9,6 +12,7 @@ class Program
         Console.WriteLine("=== New Customer ===");
         Console.WriteLine("Name: " + customer.GetFullName());
         Console.WriteLine("Email: " + customer.Email);
+        Console.WriteLine(customer.GetCart() != null ? "cart created": "no cart");
         Console.WriteLine("Is Admin: " + customer.IsAdmin());
 
         Console.WriteLine("\n=== Authentication ===");
