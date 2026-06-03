@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace FavoriteBooks;
 
 public class Database
 {
-<<<<<<< Updated upstream
-    
-    
-}
-=======
     public Database()
     {
         if (!File.Exists("Users.txt"))
@@ -32,7 +29,7 @@ public class Database
 
     // email as parameter
     // returns all details of the user with that email
-    public (string userId, string fName, string lName, string email, string password, string role) ReadUser(string email)
+    public (string userId, string fName, string lName, string email, string password, string role) readUser(string email)
     {
         string userIdRet = "";
         string fNameRet = "";
@@ -60,7 +57,7 @@ public class Database
     }
 
     // Adds a user to the Users table (.txt file)
-    public void WriteUser(string userId, string fName, string lName, string email, string password, string role)
+    public void writeUser(string userId, string fName, string lName, string email, string password, string role)
     {
         string usersFilePath = "Users.txt";
         File.AppendAllText(usersFilePath, userId + "\n");
@@ -90,7 +87,7 @@ public class Database
     }
 
     // Adds a book to the Books table (.txt file)
-    public void WriteBook(string title, string author, string desc)
+    public void writeBook(string title, string author, string desc)
     {
         string booksFilePath = "Books.txt";
 
@@ -104,7 +101,7 @@ public class Database
 
     // userId as parameter
     // Returns all items in the shopping cart belonging to that user
-    public List<(string userId, int bookId, int quantity)> ReadCart(string userId)
+    public List<(string userId, int bookId, int quantity)> readCart(string userId)
     {
         List<(string userId, int bookId, int quantity)> cartsRet = new List<(string userId, int bookId, int quantity)>();
 
@@ -121,7 +118,7 @@ public class Database
     }
 
     // Adds an item to the Carts table (.txt file)
-    public void WriteCart(string userId, int bookId, int quantity)
+    public void writeCart(string userId, int bookId, int quantity)
     {
         string cartsFilePath = "Carts.txt";
         bool entryExists = false;
@@ -147,7 +144,7 @@ public class Database
     }
 
     // Clears a users cart from the Carts table (.txt file)
-    public void ClearCart(string userId)
+    public void clearCart(string userId)
     {
         string cartsFilePath = "Carts.txt";
 
@@ -182,7 +179,7 @@ public class Database
     }
 
     // Adds an order to the Carts table (.txt file)
-    public void WriteOrder(int orderId, string userId, int bookId, int quantity)
+    public void writeOrder(int orderId, string userId, int bookId, int quantity)
     {
         string ordersFilePath = "Orders.txt";
         File.AppendAllText(ordersFilePath, orderId.ToString() + "\n");
@@ -192,7 +189,7 @@ public class Database
     }
 
     // Gets the next unused order number
-    public int GetNextOrderId()
+    public int getNextOrderId()
     {
         string ordersFilePath = "Orders.txt";
         string[] orders = File.ReadAllLines(ordersFilePath);
@@ -209,4 +206,3 @@ public class Database
         return nextOrderId;
     }
 }
->>>>>>> Stashed changes
