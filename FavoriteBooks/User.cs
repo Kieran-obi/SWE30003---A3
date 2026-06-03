@@ -70,4 +70,15 @@ public class User
         get {return _role;}
     }
 
+    public User(string userId, string firstName, string lastName, string email, string password, UserRole role)
+    {
+        _userid = userId;
+        _firstName = firstName;
+        _lastName = lastName;
+        _email = email;
+        _password = password;
+        _role = role;
+        _cart = new ShoppingCart(this);
+    }
+
 }
