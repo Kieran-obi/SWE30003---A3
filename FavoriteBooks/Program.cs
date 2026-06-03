@@ -7,23 +7,27 @@ class Program
 {
     static void Main(string[]args)
     {
-        //create new customer
-        User customer = new User("Kieran", "O'Brien", "kob@gmail.com", "password123");
-        Console.WriteLine("=== New Customer ===");
-        Console.WriteLine("Name: " + customer.GetFullName());
-        Console.WriteLine("Email: " + customer.Email);
-        Console.WriteLine(customer.GetCart() != null ? "cart created": "no cart");
-        Console.WriteLine("Is Admin: " + customer.IsAdmin());
+        UserInterface ui = new UserInterface();
 
-        Console.WriteLine("\n=== Authentication ===");
-        Console.WriteLine("Correct password: " + customer.Authenticate("password123"));   //should be True
-        Console.WriteLine("Wrong password: "   + customer.Authenticate("wrongpassword")); //should be False
+        //successful registration
+        Console.WriteLine("-- Test 1: Register a new account --");
+        ui.Register();
 
-        User admin = new User("Boom", "Shakalaka", "bs@email.com", "admin", UserRole.Administrator);
+        //duplicate email
+        Console.WriteLine("-- Test 2: Register with same email --");
+        ui.Register();
 
-        Console.WriteLine("\n=== New Administrator ===");
-        Console.WriteLine("Name: " + admin.GetFullName());
-        Console.WriteLine("Is Admin: " + admin.IsAdmin()); // should be True
+        //blank fields 
+        Console.WriteLine("-- Test 3: Register with blank fields --");
+        ui.Register();
+
+        //wrong password
+        Console.WriteLine("-- Test 4: Login with wrong password --");
+        ui.Login();
+
+        //successful login
+        Console.WriteLine("-- Test 5: Login with correct details --");
+        ui.Login();
 
     }
 }
