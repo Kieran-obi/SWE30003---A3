@@ -33,7 +33,7 @@ public class UserInterface(Database db)
         }
 
         //checks email is not already in use
-        var existing = _db.ReadUser(email);
+        var existing = _db.readUser(email);
         if (existing.email != "")
         {
             Console.WriteLine("Error: an account with that email already exists.");
@@ -41,7 +41,7 @@ public class UserInterface(Database db)
         }
 
         User newUser = new User(firstName, lastName, email, password);
-        _db.WriteUser(newUser.UserId, newUser.FirstName, newUser.LastName, newUser.Email, password, newUser.Role.ToString());
+        _db.writeUser(newUser.UserId, newUser.FirstName, newUser.LastName, newUser.Email, password, newUser.Role.ToString());
         Console.WriteLine($"Account created successfully. Welcome, {newUser.GetFullName()}!");
         return newUser;
     }
@@ -67,7 +67,7 @@ public class UserInterface(Database db)
             }
             
             //look up user in the database
-            var record = _db.ReadUser(email);
+            var record = _db.readUser(email);
             if (record.email == "")
             {
                 Console.WriteLine("Error: email or password is incorrect");
@@ -126,7 +126,7 @@ public class UserInterface(Database db)
         }
 
         //checks email is not already in use
-        var existing = _db.ReadUser(email);
+        var existing = _db.readUser(email);
         if (existing.email != "")
         {
             Console.WriteLine("Error: an account with that email already exists.");
@@ -134,18 +134,18 @@ public class UserInterface(Database db)
         }
 
         User newAdmin = new User(firstName, lastName, email, password, UserRole.Administrator);
-        _db.WriteUser(newAdmin.UserId, newAdmin.FirstName, newAdmin.LastName, newAdmin.Email, password, newAdmin.Role.ToString());
+        _db.writeUser(newAdmin.UserId, newAdmin.FirstName, newAdmin.LastName, newAdmin.Email, password, newAdmin.Role.ToString());
         Console.WriteLine($"Admin account created successfully for {newAdmin.GetFullName()}!");
         return newAdmin;
     }
 
     public void DefaultAdmin(string firstName, string lastName, string email, string password)
     {
-        var existing = _db.ReadUser(email);
+        var existing = _db.readUser(email);
         if(existing.email != "") return; 
 
         User admin = new User(firstName, lastName, email, password, UserRole.Administrator);
-        _db.WriteUser(admin.UserId, admin.FirstName, admin.LastName, admin.Email, password, admin.Role.ToString());
+        _db.writeUser(admin.UserId, admin.FirstName, admin.LastName, admin.Email, password, admin.Role.ToString());
     }
 
 }
