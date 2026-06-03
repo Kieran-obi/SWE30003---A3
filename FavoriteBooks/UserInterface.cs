@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FavoriteBooks;
 
-public class UserInterface
+public class UserInterface(Database db)
 {
-    private List<User> _users = new List<User>();
+    private Database _db = db;
 
     public User? Register()
     {
@@ -32,14 +32,16 @@ public class UserInterface
             return null;
         }
 
-        if (FindByEmail(email) != null)
+        //checks email is not already in use
+        var existing = _db.ReadUser(email);
+        if (existing.email != "")
         {
             Console.WriteLine("Error: an account with that email already exists.");
             return null;
         }
 
         User newUser = new User(firstName, lastName, email, password);
-        _users.Add(newUser);
+        _db.WriteUser(newUser.UserId, newUser.FirstName, newUser.LastName, newUser.Email, password, newUser.Role.ToString());
         Console.WriteLine($"Account created successfully. Welcome, {newUser.GetFullName()}!");
         return newUser;
     }
@@ -63,10 +65,21 @@ public class UserInterface
                 attempts++;
                 continue;
             }
+            
+            //look up user in the database
+            var record = _db.ReadUser(email);
+            if (record.email == "")
+            {
+                Console.WriteLine("Error: email or password is incorrect");
+                attempts++;
+                continue;
+            }
 
-            User? user = FindByEmail(email);
+            //reconstruct user and authenticate
+            UserRole role = record.role == "Administrator" ? UserRole.Administrator : UserRole.Customer;
+            User user = new User(record.userId, record.fName, record.lName, record.email, record.password, role);
 
-            if (user == null || !user.Authenticate(password))
+            if (!user.Authenticate(password))
             {
                 Console.WriteLine("Error: email or password is incorrect.");
                 attempts++;
@@ -74,22 +87,65 @@ public class UserInterface
             }
 
             Console.WriteLine($"Login successful. Welcome back, {user.GetFullName()}!");
-            string role = user.IsAdmin() ? "Administrator" : "Customer";
-            Console.WriteLine($"Role: {role}");
+            string roleDisplay = user.IsAdmin() ? "Administrator" : "Customer";
+            Console.WriteLine($"Role: {roleDisplay}");
+            return user;
         }
         Console.WriteLine("Too many failed attempts. Try again later.");
         return null;
     }
 
-    private User? FindByEmail(string email)
+    public User? RegisterAdmin(User currentUser)
     {
-        foreach (User user in _users)
+        if(!currentUser.IsAdmin())
         {
-            if (user.Email == email)
-            {
-                return user;
-            }
+            Console.WriteLine("Error: only administrators can create admin accounts");
+            return null;
         }
-        return null;
+        Console.WriteLine("\n=== Register Admin ===");
+
+        Console.Write("First name: ");
+        string firstName = Console.ReadLine() ?? "";
+
+        Console.Write("Last name: ");
+        string lastName = Console.ReadLine() ?? "";
+
+        Console.Write("Email: ");
+        string email = Console.ReadLine() ?? "";
+
+        Console.Write("Password: ");
+        string password = Console.ReadLine() ?? "";
+
+        if (string.IsNullOrWhiteSpace(firstName) ||
+        string.IsNullOrWhiteSpace(lastName)  ||
+        string.IsNullOrWhiteSpace(email)     ||
+        string.IsNullOrWhiteSpace(password))
+        {
+            Console.WriteLine("Error: all fields are required.");
+            return null;
+        }
+
+        //checks email is not already in use
+        var existing = _db.ReadUser(email);
+        if (existing.email != "")
+        {
+            Console.WriteLine("Error: an account with that email already exists.");
+            return null;
+        }
+
+        User newAdmin = new User(firstName, lastName, email, password, UserRole.Administrator);
+        _db.WriteUser(newAdmin.UserId, newAdmin.FirstName, newAdmin.LastName, newAdmin.Email, password, newAdmin.Role.ToString());
+        Console.WriteLine($"Admin account created successfully for {newAdmin.GetFullName()}!");
+        return newAdmin;
     }
+
+    public void DefaultAdmin(string firstName, string lastName, string email, string password)
+    {
+        var existing = _db.ReadUser(email);
+        if(existing.email != "") return; 
+
+        User admin = new User(firstName, lastName, email, password, UserRole.Administrator);
+        _db.WriteUser(admin.UserId, admin.FirstName, admin.LastName, admin.Email, password, admin.Role.ToString());
+    }
+
 }
