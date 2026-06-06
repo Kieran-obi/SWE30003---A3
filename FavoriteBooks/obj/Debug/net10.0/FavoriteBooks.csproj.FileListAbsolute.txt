@@ -28,3 +28,18 @@ C:\Josh\SWE30003SoftwareArchitectures\SWE30003---A3\FavoriteBooks\obj\Debug\net1
 C:\Josh\SWE30003SoftwareArchitectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.pdb
 C:\Josh\SWE30003SoftwareArchitectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.genruntimeconfig.cache
 C:\Josh\SWE30003SoftwareArchitectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\ref\FavoriteBooks.dll
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\bin\Debug\net10.0\FavoriteBooks.exe
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\bin\Debug\net10.0\FavoriteBooks.deps.json
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\bin\Debug\net10.0\FavoriteBooks.runtimeconfig.json
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\bin\Debug\net10.0\FavoriteBooks.dll
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\bin\Debug\net10.0\FavoriteBooks.pdb
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.GeneratedMSBuildEditorConfig.editorconfig
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.AssemblyInfoInputs.cache
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.AssemblyInfo.cs
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.csproj.CoreCompileInputs.cache
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.sourcelink.json
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.dll
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\refint\FavoriteBooks.dll
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.pdb
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\FavoriteBooks.genruntimeconfig.cache
+C:\Swinburne\Sem-4\Software Design and Architectures\SWE30003---A3\FavoriteBooks\obj\Debug\net10.0\ref\FavoriteBooks.dll

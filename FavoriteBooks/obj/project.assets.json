@@ -8,19 +8,19 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\joshy\\.nuget\\packages\\": {}
+    "C:\\Users\\adity\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Josh\\SWE30003SoftwareArchitectures\\SWE30003---A3\\FavoriteBooks\\FavoriteBooks.csproj",
+      "projectUniqueName": "C:\\Swinburne\\Sem-4\\Software Design and Architectures\\SWE30003---A3\\FavoriteBooks\\FavoriteBooks.csproj",
       "projectName": "FavoriteBooks",
-      "projectPath": "C:\\Josh\\SWE30003SoftwareArchitectures\\SWE30003---A3\\FavoriteBooks\\FavoriteBooks.csproj",
-      "packagesPath": "C:\\Users\\joshy\\.nuget\\packages\\",
-      "outputPath": "C:\\Josh\\SWE30003SoftwareArchitectures\\SWE30003---A3\\FavoriteBooks\\obj\\",
+      "projectPath": "C:\\Swinburne\\Sem-4\\Software Design and Architectures\\SWE30003---A3\\FavoriteBooks\\FavoriteBooks.csproj",
+      "packagesPath": "C:\\Users\\adity\\.nuget\\packages\\",
+      "outputPath": "C:\\Swinburne\\Sem-4\\Software Design and Architectures\\SWE30003---A3\\FavoriteBooks\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\joshy\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\adity\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"

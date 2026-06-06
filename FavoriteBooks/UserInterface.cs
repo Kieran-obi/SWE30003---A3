@@ -24,8 +24,8 @@ public class UserInterface(Database db)
         string password = Console.ReadLine() ?? "";
 
         if (string.IsNullOrWhiteSpace(firstName) ||
-        string.IsNullOrWhiteSpace(lastName)  ||
-        string.IsNullOrWhiteSpace(email)     ||
+        string.IsNullOrWhiteSpace(lastName) ||
+        string.IsNullOrWhiteSpace(email) ||
         string.IsNullOrWhiteSpace(password))
         {
             Console.WriteLine("Error: all fields are required.");
@@ -65,7 +65,7 @@ public class UserInterface(Database db)
                 attempts++;
                 continue;
             }
-            
+
             //look up user in the database
             var record = _db.readUser(email);
             if (record.email == "")
@@ -97,7 +97,7 @@ public class UserInterface(Database db)
 
     public User? RegisterAdmin(User currentUser)
     {
-        if(!currentUser.IsAdmin())
+        if (!currentUser.IsAdmin())
         {
             Console.WriteLine("Error: only administrators can create admin accounts");
             return null;
@@ -117,8 +117,8 @@ public class UserInterface(Database db)
         string password = Console.ReadLine() ?? "";
 
         if (string.IsNullOrWhiteSpace(firstName) ||
-        string.IsNullOrWhiteSpace(lastName)  ||
-        string.IsNullOrWhiteSpace(email)     ||
+        string.IsNullOrWhiteSpace(lastName) ||
+        string.IsNullOrWhiteSpace(email) ||
         string.IsNullOrWhiteSpace(password))
         {
             Console.WriteLine("Error: all fields are required.");
@@ -142,7 +142,7 @@ public class UserInterface(Database db)
     public void DefaultAdmin(string firstName, string lastName, string email, string password)
     {
         var existing = _db.readUser(email);
-        if(existing.email != "") return; 
+        if (existing.email != "") return;
 
         User admin = new User(firstName, lastName, email, password, UserRole.Administrator);
         _db.writeUser(admin.UserId, admin.FirstName, admin.LastName, admin.Email, password, admin.Role.ToString());
