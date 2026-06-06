@@ -1,84 +1,89 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FavoriteBooks;
-
-public enum UserRole
+namespace FavoriteBooks
 {
-    Customer,
-    Administrator
-}
-public class User
-{
-    private readonly string _userid;
-    private string _firstName;
-    private string _lastName;
-    private string _email;
-    private string _password;
-    private ShoppingCart _cart;
-    private UserRole _role;
-
-    public User(string firstName, string lastName, string email, string password, UserRole role = UserRole.Customer)
+    public enum UserRole
     {
-        _userid = Guid.NewGuid().ToString();
-        _firstName = firstName;
-        _lastName = lastName;
-        _email = email;
-        _password = password;
-        _role = role;
-        _cart = new ShoppingCart(this);
+        Customer,
+        Administrator
     }
 
-    public bool Authenticate(string password)
+    public class User
     {
-        return _password == password;
-    }
+        Database db;
+        
+        private string _userid;
+        private string _firstName;
+        private string _lastName;
+        private string _email;
+        private string _password;
+        private ShoppingCart _cart;
+        private UserRole _role;
 
-    public bool IsAdmin()
-    {
-        return _role == UserRole.Administrator;
-    }
+        public User(Database database, string userId, string firstName, string lastName, string email, string password, string role = "Customer")
+        {
+            db = database;
+            
+            _userid = userId;
+            _firstName = firstName;
+            _lastName = lastName;
+            _email = email;
+            _password = password;
+            if (role == "Customer")
+            {
+                _role = UserRole.Customer;
+            }
+            if (role == "Administrator")
+            {
+                _role = UserRole.Administrator;
+            }
+            _cart = new ShoppingCart(this, db);
+        }
 
-    public string GetFullName()
-    {
-        return $"{_firstName} {_lastName}";
-    }
+        public bool Authenticate(string password)
+        {
+            return _password == password;
+        }
 
-    public string UserId
-    {
-        get {return _userid;}
-    }
+        public bool IsAdmin()
+        {
+            return _role == UserRole.Administrator;
+        }
 
-    public string FirstName
-    {
-        get {return _firstName;}
-    }
-    public string LastName
-    {
-        get {return _lastName;}
-    }
-    public string Email
-    {
-        get {return _email;}
-    }
-    public ShoppingCart GetCart()
-    {
-        return _cart;
-    }
-    public UserRole Role
-    {
-        get {return _role;}
-    }
+        public string GetFullName()
+        {
+            return $"{_firstName} {_lastName}";
+        }
 
-    public User(string userId, string firstName, string lastName, string email, string password, UserRole role)
-    {
-        _userid = userId;
-        _firstName = firstName;
-        _lastName = lastName;
-        _email = email;
-        _password = password;
-        _role = role;
-        _cart = new ShoppingCart(this);
-    }
+        public string UserId
+        {
+            get { return _userid; }
+        }
 
+        public string FirstName
+        {
+            get { return _firstName; }
+        }
+        public string LastName
+        {
+            get { return _lastName; }
+        }
+        public string Email
+        {
+            get { return _email; }
+        }
+        public ShoppingCart GetCart()
+        {
+            return _cart;
+        }
+        public UserRole Role
+        {
+            get { return _role; }
+        }
+    }
 }

@@ -1,69 +1,80 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-namespace FavoriteBooks;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class Book
+namespace FavoriteBooks
 {
-    private int bookId;
-    private string title;
-    private string author;
-    private string description;
-    private double price;
-    private int stockQuantity;
-
-    public Book(int bookId, string title, string author, string description, double price, int stockQuantity)
+    public class Book
     {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-    }
+        Database db;
+        
+        private int bookId;
+        private string title;
+        private string author;
+        private string description;
+        private double price;
+        private int stockQuantity;
 
-    // Constructor used by ShoppingCart when loading from database
-    public Book(int bookId)
-    {
-        this.bookId = bookId;
-        this.title = "";
-        this.author = "";
-        this.description = "";
-        this.price = 0.0;
-        this.stockQuantity = 0;
-    }
+        public Book(int bookId, string title, string author, string description, double price, int stockQuantity)
+        {
+            this.bookId = bookId;
+            this.title = title;
+            this.author = author;
+            this.description = description;
+            this.price = price;
+            this.stockQuantity = stockQuantity;
+        }
 
-    public int GetBookId()
-    {
-        return bookId;
-    }
+        // Constructor used by ShoppingCart when loading from database
+        public Book(Database database, int bookId)
+        {
+            this.db = database;
 
-    public string GetTitle()
-    {
-        return title;
-    }
+            var bookInfo = db.readBook(bookId)[0];
+            
+            this.bookId = bookId;
+            this.title = bookInfo.title;
+            this.author = bookInfo.author;
+            this.description = bookInfo.desc;
+            this.price = bookInfo.price;
+            this.stockQuantity = bookInfo.stockQuantity;
+        }
 
-    public string GetAuthor()
-    {
-        return author;
-    }
+        public int GetBookId()
+        {
+            return bookId;
+        }
 
-    public string GetDescription()
-    {
-        return description;
-    }
+        public string GetTitle()
+        {
+            return title;
+        }
 
-    public double GetPrice()
-    {
-        return price;
-    }
+        public string GetAuthor()
+        {
+            return author;
+        }
 
-    public int GetStockQuantity()
-    {
-        return stockQuantity;
-    }
+        public string GetDescription()
+        {
+            return description;
+        }
 
-    public override string ToString()
-    {
-        return $"[{bookId}] {title} by {author} - ${price:F2} ({stockQuantity} in stock)\n    {description}";
+        public double GetPrice()
+        {
+            return price;
+        }
+
+        public int GetStockQuantity()
+        {
+            return stockQuantity;
+        }
+
+        public override string ToString()
+        {
+            return $"{title} by {author}";
+        }
     }
 }
