@@ -70,33 +70,35 @@ public class Database
 
     // bookId, title, or author as parameter (or any combination of the three (or none of them))
     // Returns a list of books with details matching the parameters
-    public List<(int bookId, string title, string author, string desc)> readBook(int bookId = 0, string title = "", string author = "")
+    public List<(int bookId, string title, string author, string desc, double price, int stockQuantity)> readBook(int bookId = 0, string title = "", string author = "")
     {
-        List<(int bookId, string title, string author, string desc)> booksRet = new List<(int bookId, string title, string author, string desc)>();
-
+        List<(int bookId, string title, string author, string desc, double price, int stockQuantity)> booksRet = new List<(int bookId, string title, string author, string desc, double price, int stockQuantity)>();
+    
         string booksFilePath = "Books.txt";
         string[] books = File.ReadAllLines(booksFilePath);
-        for (int i = 0; i < books.Length; i += 4)
+        for (int i = 0; i < books.Length; i += 6)
         {
             if ((bookId.ToString() == books[i] || bookId == 0) && (title == books[i + 1] || title == "") && (author == books[i + 2] || author == ""))
             {
-                booksRet.Add((Convert.ToInt32(books[i]), books[i + 1], books[i + 2], books[i + 3]));
+                booksRet.Add((Convert.ToInt32(books[i]), books[i + 1], books[i + 2], books[i + 3], Convert.ToDouble(books[i + 4]), Convert.ToInt32(books[i + 5])));
             }
         }
         return booksRet;
     }
-
+    
     // Adds a book to the Books table (.txt file)
-    public void writeBook(string title, string author, string desc)
+    public void writeBook(string title, string author, string desc, double price, int stockQuantity)
     {
         string booksFilePath = "Books.txt";
-
-        int bookId = ((File.ReadLines("Books.txt").Count()) / 4) + 1;
-
+    
+        int bookId = ((File.ReadLines("Books.txt").Count()) / 6) + 1;
+    
         File.AppendAllText(booksFilePath, bookId.ToString() + "\n");
         File.AppendAllText(booksFilePath, title + "\n");
         File.AppendAllText(booksFilePath, author + "\n");
         File.AppendAllText(booksFilePath, desc + "\n");
+        File.AppendAllText(booksFilePath, price.ToString() + "\n");
+        File.AppendAllText(booksFilePath, stockQuantity.ToString() + "\n");
     }
 
     // userId as parameter
