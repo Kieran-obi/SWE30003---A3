@@ -1,151 +1,103 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace FavoriteBooks;
-
-public class UserInterface(Database db)
+namespace FavoriteBooks
 {
-    private Database _db = db;
-
-    public User? Register()
+    public partial class UserInterface : Form
     {
-        Console.WriteLine("\n=== Register ===");
+        CatalogueUC catalogueUC;
+        ShoppingCartUC shoppingCartUC;
+        RegisterUC registerUC;
+        LogInUC logInUC;
 
-        Console.Write("First name: ");
-        string firstName = Console.ReadLine() ?? "";
+        Database db;
+        User currentUser;
 
-        Console.Write("Last name: ");
-        string lastName = Console.ReadLine() ?? "";
-
-        Console.Write("Email: ");
-        string email = Console.ReadLine() ?? "";
-
-        Console.Write("Password: ");
-        string password = Console.ReadLine() ?? "";
-
-        if (string.IsNullOrWhiteSpace(firstName) ||
-        string.IsNullOrWhiteSpace(lastName) ||
-        string.IsNullOrWhiteSpace(email) ||
-        string.IsNullOrWhiteSpace(password))
+        public UserInterface()
         {
-            Console.WriteLine("Error: all fields are required.");
-            return null;
+            InitializeComponent();
+
+            currentUser = null;
+
+            db = new Database();
+
+            userLbl.Text = "Current user: Guest";
+
+            catalogueUC = new CatalogueUC(this, db);
+            catalogueUC.Dock = DockStyle.Fill;
+            userControlPanel.Controls.Add(catalogueUC);
+
+            shoppingCartUC = new ShoppingCartUC(this);
+            shoppingCartUC.Name = "shoppingCartUC";
+            shoppingCartUC.Dock = DockStyle.Fill;
+            userControlPanel.Controls.Add(shoppingCartUC);
+
+            registerUC = new RegisterUC(this, db);
+            registerUC.Dock = DockStyle.Fill;
+            userControlPanel.Controls.Add(registerUC);
+
+            logInUC = new LogInUC(this, db);
+            logInUC.Dock = DockStyle.Fill;
+            userControlPanel.Controls.Add(logInUC);
+
+            catalogueUC.Clear();
+            catalogueUC.BringToFront();
         }
 
-        //checks email is not already in use
-        var existing = _db.readUser(email);
-        if (existing.email != "")
+        public User getCurrentUser()
         {
-            Console.WriteLine("Error: an account with that email already exists.");
-            return null;
+            return currentUser;
+        }
+        
+        public void changeUser(string email)
+        {
+            var userInfo = db.readUser(email);
+            currentUser = new User(db, userInfo.userId, userInfo.fName, userInfo.lName, userInfo.email, userInfo.password, userInfo.role);
+            userLbl.Text = "Current user: " + currentUser.FirstName + " " + currentUser.LastName;
         }
 
-        User newUser = new User(firstName, lastName, email, password);
-        _db.writeUser(newUser.UserId, newUser.FirstName, newUser.LastName, newUser.Email, password, newUser.Role.ToString());
-        Console.WriteLine($"Account created successfully. Welcome, {newUser.GetFullName()}!");
-        return newUser;
-    }
-
-    public User? Login()
-    {
-        Console.WriteLine("\n=== Login ===");
-        int attempts = 0;
-        while (attempts < 3)
+        private void logOut()
         {
+            currentUser = null;
+            userLbl.Text = "Current user: Guest";
+        }
 
-            Console.Write("Email: ");
-            string email = Console.ReadLine() ?? "";
+        private void catalogueBtn_Click(object sender, EventArgs e)
+        {
+            catalogueUC.Clear();
+            catalogueUC.BringToFront();
+        }
 
-            Console.Write("Password: ");
-            string password = Console.ReadLine() ?? "";
+        private void cartBtn_Click(object sender, EventArgs e)
+        {
+            shoppingCartUC.DisplayItems();
+            shoppingCartUC.BringToFront();
+        }
 
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        private void registerBtn_Click(object sender, EventArgs e)
+        {
+            registerUC.BringToFront();
+        }
+
+        private void logInBtn_Click(object sender, EventArgs e)
+        {
+            logInUC.BringToFront();
+        }
+
+        private void logOutBtn_Click(object sender, EventArgs e)
+        {
+            if (currentUser != null)
             {
-                Console.WriteLine("Error: email and password are required.");
-                attempts++;
-                continue;
+                logOut();
+                catalogueUC.BringToFront();
             }
-
-            //look up user in the database
-            var record = _db.readUser(email);
-            if (record.email == "")
-            {
-                Console.WriteLine("Error: email or password is incorrect");
-                attempts++;
-                continue;
-            }
-
-            //reconstruct user and authenticate
-            UserRole role = record.role == "Administrator" ? UserRole.Administrator : UserRole.Customer;
-            User user = new User(record.userId, record.fName, record.lName, record.email, record.password, role);
-
-            if (!user.Authenticate(password))
-            {
-                Console.WriteLine("Error: email or password is incorrect.");
-                attempts++;
-                continue;
-            }
-
-            Console.WriteLine($"Login successful. Welcome back, {user.GetFullName()}!");
-            string roleDisplay = user.IsAdmin() ? "Administrator" : "Customer";
-            Console.WriteLine($"Role: {roleDisplay}");
-            return user;
         }
-        Console.WriteLine("Too many failed attempts. Try again later.");
-        return null;
     }
-
-    public User? RegisterAdmin(User currentUser)
-    {
-        if (!currentUser.IsAdmin())
-        {
-            Console.WriteLine("Error: only administrators can create admin accounts");
-            return null;
-        }
-        Console.WriteLine("\n=== Register Admin ===");
-
-        Console.Write("First name: ");
-        string firstName = Console.ReadLine() ?? "";
-
-        Console.Write("Last name: ");
-        string lastName = Console.ReadLine() ?? "";
-
-        Console.Write("Email: ");
-        string email = Console.ReadLine() ?? "";
-
-        Console.Write("Password: ");
-        string password = Console.ReadLine() ?? "";
-
-        if (string.IsNullOrWhiteSpace(firstName) ||
-        string.IsNullOrWhiteSpace(lastName) ||
-        string.IsNullOrWhiteSpace(email) ||
-        string.IsNullOrWhiteSpace(password))
-        {
-            Console.WriteLine("Error: all fields are required.");
-            return null;
-        }
-
-        //checks email is not already in use
-        var existing = _db.readUser(email);
-        if (existing.email != "")
-        {
-            Console.WriteLine("Error: an account with that email already exists.");
-            return null;
-        }
-
-        User newAdmin = new User(firstName, lastName, email, password, UserRole.Administrator);
-        _db.writeUser(newAdmin.UserId, newAdmin.FirstName, newAdmin.LastName, newAdmin.Email, password, newAdmin.Role.ToString());
-        Console.WriteLine($"Admin account created successfully for {newAdmin.GetFullName()}!");
-        return newAdmin;
-    }
-
-    public void DefaultAdmin(string firstName, string lastName, string email, string password)
-    {
-        var existing = _db.readUser(email);
-        if (existing.email != "") return;
-
-        User admin = new User(firstName, lastName, email, password, UserRole.Administrator);
-        _db.writeUser(admin.UserId, admin.FirstName, admin.LastName, admin.Email, password, admin.Role.ToString());
-    }
-
 }
